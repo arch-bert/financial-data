@@ -23,7 +23,7 @@ url += f'&symbol={symbol}'
 url += f'&apikey={API_KEY}'
 
 if freq not in ['monthly', 'weekly', 'daily']:
-    url += f'&interval={function[freq][1]}'
+    url += f'&interval={freq}'
 
 response = requests.get(url)
 data_json = response.json()
