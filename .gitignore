@@ -1,0 +1,10 @@
+# Bytecode files
+*.pyc
+__pycache__/
+
+# Other files/directories
+.DS_Store
+.env
+venv/
+.idea/
+*.log
