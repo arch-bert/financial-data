@@ -64,7 +64,32 @@ def clear_directory(dir_path):
 
 
 def clean_data_frame(df):
+    """
+    Performs cleaning operations on a DataFrame.
+
+    This function currently handles the following cleaning operations:
+    - Renames the 'date' column to 'Date' for consistency.
+    - Removes 'Adj Close', 'Dividends', and 'Stock Split' columns if they exist.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame to clean.
+
+    Returns:
+    None: The function modifies the DataFrame in place.
+    """
 
     # Change 'date' column to 'Date'
-    if 'date' in df:
+    if 'date' in df.columns:
         df.rename(columns={'date': 'Date'}, inplace=True)
+
+    # Remove 'Adj Close' Column
+    if 'Adj Close' in df.columns:
+        df.drop(columns='Adj Close', inplace=True)
+
+    # Remove 'Dividends' Column
+    if 'Dividends' in df.columns:
+        df.drop(columns='Dividends', inplace=True)
+
+    # Remove 'Stock Split' Column
+    if 'Stock Split' in df.columns:
+        df.drop(columns='Stock Split', inplace=True)
