@@ -14,9 +14,8 @@ def write_to_file(data_frame, file_name, format, output_dir='output'):
     output_dir (str): The directory to write the file to (default is 'output').
     """
 
-    output_path = Path(output_dir)
-
     # Make sure the output directory exists and is empty
+    output_path = Path(output_dir)
     if output_path.exists():
         clear_directory(output_path)
     else:
@@ -62,3 +61,10 @@ def clear_directory(dir_path):
                 shutil.rmtree(item)
             else:
                 item.unlink()
+
+
+def clean_data_frame(df):
+
+    # Change 'date' column to 'Date'
+    if 'date' in df:
+        df.rename(columns={'date': 'Date'}, inplace=True)
