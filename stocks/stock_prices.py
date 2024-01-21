@@ -2,8 +2,7 @@ from openbb_terminal.sdk import openbb
 from utils.suppress_print import SuppressPrint
 from utils import data
 
-# TODO: error handling
-# TODO: Print out actual start and end dates for fetched data
+# TODO: error handling: ie wrong symbol
 
 
 def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
