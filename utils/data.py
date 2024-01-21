@@ -93,3 +93,21 @@ def clean_data_frame(df):
     # Remove 'Stock Split' Column
     if 'Stock Split' in df.columns:
         df.drop(columns='Stock Split', inplace=True)
+
+
+def print_dates_msg(df, start_date, end_date):
+
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
+
+    # Handle start date
+    if df.index[0] == start_date:
+        print(f'Start date: {start_date}')
+    else:
+        print(f'Data only available from start date: {df.index[0]}')
+
+    # Handle end date
+    if df.index[-1] == end_date:
+        print(f'end date: {end_date}')
+    else:
+        print(f'Data only available until end date: {df.index[-1]}')
