@@ -62,10 +62,17 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         end_date=end_date,
                                         interval=time_step)
                 data.print_dates_msg(df, start_date, end_date)
+        # Handle invalid time-step
+        else:
+            print(f'Invalid time-step: {time_step}')
 
     # Handle invalid symbol error
     except IndexError:
         print(f'Invalid symbol: {symbol}')
         return None
+
+    # Handle invalid date error
+    except ParserError:
+        print(f'Invalid date format: {symbol}')
 
     return df
