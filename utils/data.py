@@ -95,19 +95,36 @@ def clean_data_frame(df):
         df.drop(columns='Stock Split', inplace=True)
 
 
-def print_dates_msg(df, start_date, end_date):
+def print_dates_msg(df, start_date=None, end_date=None):
+    """
+    Prints messages about the availability of data in a DataFrame based on provided start and end dates.
 
-    start_date = pd.to_datetime(start_date)
-    end_date = pd.to_datetime(end_date)
+    The function checks the first and last index of the DataFrame against the provided start and end dates.
+    It prints a message indicating whether the provided dates align with the available data or states the range of available data.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame whose date range is to be checked.
+    start_date (str or datetime, optional): The start date for the data range. If None, the function uses the first date in the DataFrame. Default is None.
+    end_date (str or datetime, optional): The end date for the data range. If None, the function uses the last date in the DataFrame. Default is None.
+
+    Returns:
+    None: This function prints messages to the console but does not return any value.
+    """
+
+    # Check for empty date parameters
+    if start_date is not None:
+        start_date = pd.to_datetime(start_date)
+    if end_date is not None:
+        end_date = pd.to_datetime(end_date)
 
     # Handle start date
-    if df.index[0] == start_date:
+    if df.index[0] in [start_date, None]:
         print(f'Start date: {start_date}')
     else:
         print(f'Data only available from start date: {df.index[0]}')
 
     # Handle end date
-    if df.index[-1] == end_date:
+    if df.index[-1] in [end_date, None]:
         print(f'end date: {end_date}')
     else:
         print(f'Data only available until end date: {df.index[-1]}')
