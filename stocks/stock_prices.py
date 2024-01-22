@@ -1,8 +1,7 @@
-from openbb_terminal.sdk import openbb
 from utils.suppress_print import SuppressPrint
+from dateutil.parser import ParserError
+from openbb_terminal.sdk import openbb
 from utils import data
-
-# TODO: error handling: ie wrong symbol
 
 
 def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
@@ -22,11 +21,16 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
         'monthly', '1min', '5min', '15min', '30min', '60min'. If None or 'daily', daily data is fetched. Default is None.
 
     Returns:
-    pd.DataFrame: A DataFrame containing the time series data for the specified stock symbol.
+    pd.DataFrame: A DataFrame containing the time series data for the specified stock symbol. Returns None if an error occurs.
+
+    Raises:
+    IndexError: If an invalid stock symbol is provided.
+    ParserError: If the provided dates are in an incorrect format.
 
     Notes:
     - The function suppresses print statements from the OpenBB Terminal's load function using the SuppressPrint context manager.
-    - It also prints messages about the availability of data for the requested dates using the 'print_dates_msg' function.
+    - It prints messages about the availability of data for the requested dates using the 'print_dates_msg' function.
+    - Error handling includes checks for invalid stock symbols, incorrect date formats, and unsupported time steps.
     """
 
     try:
@@ -37,7 +41,7 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         start_date=start_date,
                                         end_date=end_date)
             data.print_dates_msg(df, start_date, end_date)
-
+        # Load monthly data
         elif time_step == 'monthly':
             with SuppressPrint():
                 df = openbb.stocks.load(symbol,
@@ -45,7 +49,7 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         end_date=end_date,
                                         monthly=True)
             data.print_dates_msg(df, start_date, end_date)
-
+        # Load weekly data
         elif time_step == 'weekly':
             with SuppressPrint():
                 df = openbb.stocks.load(symbol,
@@ -53,7 +57,7 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         end_date=end_date,
                                         weekly=True)
             data.print_dates_msg(df, start_date, end_date)
-
+        # Load intra-day data
         elif time_step in ['1min', '5min', '15min', '30min', '60min']:
             with SuppressPrint():
                 int(time_step.replace('min', ''))
@@ -62,17 +66,19 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         end_date=end_date,
                                         interval=time_step)
                 data.print_dates_msg(df, start_date, end_date)
-        # Handle invalid time-step
+        # Handle invalid time-step ()
         else:
-            print(f'Invalid time-step: {time_step}')
+            print(f"Invalid time-step: '{time_step}'")
+            return None
 
     # Handle invalid symbol error
     except IndexError:
-        print(f'Invalid symbol: {symbol}')
+        print(f"Invalid symbol: '{symbol}'")
         return None
 
     # Handle invalid date error
     except ParserError:
-        print(f'Invalid date format: {symbol}')
+        print(f"Invalid date format")
+        return None
 
     return df
