@@ -97,34 +97,43 @@ def clean_data_frame(df):
 
 def print_dates_msg(df, start_date=None, end_date=None):
     """
-    Prints messages about the availability of data in a DataFrame based on provided start and end dates.
-
-    The function checks the first and last index of the DataFrame against the provided start and end dates.
-    It prints a message indicating whether the provided dates align with the available data or states the range of available data.
+    Prints messages indicating the data availability range in a DataFrame compared to requested start and end dates.
 
     Parameters:
-    df (pd.DataFrame): The DataFrame whose date range is to be checked.
-    start_date (str or datetime, optional): The start date for the data range. If None, the function uses the first date in the DataFrame. Default is None.
-    end_date (str or datetime, optional): The end date for the data range. If None, the function uses the last date in the DataFrame. Default is None.
+    df (pd.DataFrame): DataFrame to check the date range.
+    start_date (str, datetime, or None, optional): User-specified start date. Defaults to the first date in df if None or mismatched.
+    end_date (str, datetime, or None, optional): User-specified end date. Defaults to the last date in df if None or mismatched.
 
     Returns:
-    None: This function prints messages to the console but does not return any value.
+    None: Function prints messages to the console regarding data availability.
+
+    Notes:
+    - Informs users of the actual data range if provided dates don't align with DataFrame's dates.
+    - Essential for validating date ranges in data analysis contexts.
     """
 
-    # Check for empty date parameters
+    # Convert start and end dates to datetime if not None
     if start_date is not None:
-        start_date = pd.to_datetime(start_date)
+        user_start_date = pd.to_datetime(start_date)
+    else:
+        user_start_date = None
+
     if end_date is not None:
-        end_date = pd.to_datetime(end_date)
-
-    # Handle start date
-    if df.index[0] in [start_date, None]:
-        print(f'Start date: {start_date}')
+        user_end_date = pd.to_datetime(end_date)
     else:
-        print(f'Data only available from start date: {df.index[0]}')
+        user_end_date = None
 
-    # Handle end date
-    if df.index[-1] in [end_date, None]:
-        print(f'end date: {end_date}')
+    # Fetch actual start and end dates from DataFrame
+    actual_start_date = df.index[0]
+    actual_end_date = df.index[-1]
+
+    # Compare and print messages
+    if user_start_date is None or user_start_date == actual_start_date:
+        print(f'Start date: {actual_start_date}')
     else:
-        print(f'Data only available until end date: {df.index[-1]}')
+        print(f'Data only available from start date: {actual_start_date}')
+
+    if user_end_date is None or user_end_date == actual_end_date:
+        print(f'End date: {actual_end_date}')
+    else:
+        print(f'Data only available until end date: {actual_end_date}')
