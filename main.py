@@ -1,4 +1,3 @@
-import sys
 from utils import data
 from datetime import datetime
 from stocks import stock_prices
