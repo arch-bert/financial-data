@@ -10,3 +10,8 @@ venv/
 *.log
 .vscode
 .gitignore
+
+# Output
+*.xlsx
+*.csv
+*.json
