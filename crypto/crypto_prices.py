@@ -4,18 +4,18 @@ from openbb_terminal.sdk import openbb
 from utils import data
 
 
-def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
+def get_time_series(symbol, start_date=None, end_date=None, interval=None):
 
     try:
         # Load daily time series
-        if time_step is None or time_step == 'daily':
+        if interval is None or interval == 'daily':
             with SuppressPrint():
                 df = openbb.crypto.load(symbol,
                                         start_date=start_date,
                                         end_date=end_date)
             data.print_dates_msg(df, start_date, end_date)
         # Load monthly data
-        elif time_step == 'monthly':
+        elif interval == 'monthly':
             with SuppressPrint():
                 df = openbb.crypto.load(symbol,
                                         start_date=start_date,
@@ -23,7 +23,7 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         int=43200)
             data.print_dates_msg(df, start_date, end_date)
         # Load weekly data
-        elif time_step == 'weekly':
+        elif interval == 'weekly':
             with SuppressPrint():
                 df = openbb.crypto.load(symbol,
                                         start_date=start_date,
@@ -31,17 +31,17 @@ def get_time_series(symbol, start_date=None, end_date=None, time_step=None):
                                         interval=10080)
             data.print_dates_msg(df, start_date, end_date)
         # Load intra-day data
-        elif time_step in ['1min', '5min', '15min', '30min', '60min']:
+        elif interval in ['1min', '5min', '15min', '30min', '60min']:
             with SuppressPrint():
-                int(time_step.replace('min', ''))
+                int(interval.replace('min', ''))
                 df = openbb.crypto.load(symbol,
                                         start_date=start_date,
                                         end_date=end_date,
-                                        interval=time_step)
+                                        interval=interval)
                 data.print_dates_msg(df, start_date, end_date)
         # Handle invalid time-step ()
         else:
-            print(f"Invalid time-step: '{time_step}'")
+            print(f"Invalid time-step: '{interval}'")
             return None
 
     # Handle invalid symbol error
