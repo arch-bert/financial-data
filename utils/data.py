@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 
 
-def write_to_file(data_frame, file_name, format, output_dir='output'):
+def write_to_file(data_frame, file_name, format):
     """
     Writes a DataFrame to a file in the specified format.
 
@@ -15,7 +15,7 @@ def write_to_file(data_frame, file_name, format, output_dir='output'):
     """
 
     # Make sure the output directory exists and is empty
-    output_path = Path(output_dir)
+    output_path = Path('output')
     if output_path.exists():
         clear_directory(output_path)
     else:
