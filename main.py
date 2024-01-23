@@ -85,11 +85,14 @@ def is_valid_symbol(symbol, stocks=True, crypto=False, currency=False):
 
     try:
         if stocks:
-            df = stock_prices.get_time_series(symbol)
+            with SuppressPrint():
+                df = stock_prices.get_time_series(symbol)
         elif crypto:
-            df = crypto_prices.get_time_series(symbol)
+            with SuppressPrint():
+                df = crypto_prices.get_time_series(symbol)
         elif currency:
-            df = forex_rates.get_time_series(symbol)
+            with SuppressPrint():
+                df = forex_rates.get_time_series(symbol)
 
         return True
 
