@@ -60,14 +60,33 @@ def main():
         format = input("Format {xlsx, csv, json}:   ")
         valid = is_valid_format(format)
 
-    # Create filename string
-    file_name = f'{symbol}_{start_date}_{end_date}_{interval}'
-
     # Pull data using valid input
     if data_type == 'stocks':
-        df = stock_prices.get_time_series(
-            symbol, start_date, end_date, interval)
-        data.write_to_file(df, file_name, format)
+        df = stock_prices.get_time_series(symbol, start_date,
+                                          end_date, interval)
+    elif data_type == 'crypto':
+        df = crypto_prices.get_time_series(symbol, start_date,
+                                           end_date, interval)
+    else:
+        df = forex_rates.get_time_series(symbol, start_date,
+                                         end_date, interval)
+
+    # Clean currency symbol for filename
+    symbol = symbol.replace('/', '_')
+
+    # Get actual time-series dates
+    actual_start_date = df.index[0]
+    actual_end_date = df.index[-1]
+    # Remove time from the DateTime object
+    actual_start_date = actual_start_date.strftime('%Y-%m-%d', )
+    actual_end_date = actual_end_date.strftime('%Y-%m-%d')
+
+    # Create filename string
+    file_name = f'{symbol}_{actual_start_date}_{actual_end_date}_{interval}'
+
+    # Clean DataFrame and write to file
+    data.clean_data_frame(df)
+    data.write_to_file(df, file_name, format)
 
 ###################### FUNCTIONS ######################
 
