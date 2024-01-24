@@ -1,5 +1,6 @@
 ################ GUI PACKAGES ################
 
+import tkinter as tk
 import customtkinter as ctk
 from tkcalendar import Calendar
 
