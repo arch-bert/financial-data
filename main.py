@@ -8,6 +8,13 @@ from utils.suppress_print import SuppressPrint
 
 ###################### MAIN LOOP ######################
 def main():
+    """
+    The main loop for the financial data extraction script. This function prompts the user for input
+    on the type of financial data needed (stocks, crypto, forex), the symbol for the data,
+    the start and end dates for the data range, the interval of the data, and the desired output format.
+    It then fetches the data and saves it to a file.
+    """
+
     # Initialize variables
     data_type = None
     symbol = None
@@ -91,6 +98,15 @@ def main():
 
 
 def is_valid_data_type(data_type):
+    """
+    Validates the financial data type input by the user.
+
+    Parameters:
+    - data_type (str): The type of financial data the user wants to fetch (stocks, crypto, forex).
+
+    Returns:
+    - bool: True if the data_type is valid, False otherwise.
+    """
 
     if data_type in ['stocks', 'crypto', 'forex']:
         return True
@@ -100,6 +116,18 @@ def is_valid_data_type(data_type):
 
 
 def is_valid_symbol(symbol, stocks=True, crypto=False, currency=False):
+    """
+    Validates the symbol input by the user based on the type of financial data.
+
+    Parameters:
+    - symbol (str): The symbol for the financial data (like a stock ticker).
+    - stocks (bool): Flag to indicate stock symbol validation. Default is True.
+    - crypto (bool): Flag to indicate cryptocurrency symbol validation. Default is False.
+    - currency (bool): Flag to indicate forex symbol validation. Default is False.
+
+    Returns:
+    - bool: True if the symbol is valid, False otherwise.
+    """
 
     try:
         if stocks:
@@ -120,6 +148,16 @@ def is_valid_symbol(symbol, stocks=True, crypto=False, currency=False):
 
 
 def is_valid_date(date):
+    """
+    Validates the date input by the user.
+
+    Parameters:
+    - date (str): The date string to validate, expected in 'YYYY-MM-DD' format.
+
+    Returns:
+    - bool: True if the date format is valid, False otherwise.
+    """
+
     try:
         # Try to parse the date string using format 'YYYY-MM-DD'
         datetime.strptime(date, '%Y-%m-%d')
@@ -131,6 +169,15 @@ def is_valid_date(date):
 
 
 def is_valid_interval(time_step):
+    """
+    Validates the interval input by the user.
+
+    Parameters:
+    - time_step (str): The interval for the financial data (e.g., '1min', '5min', etc.).
+
+    Returns:
+    - bool: True if the interval is valid, False otherwise.
+    """
 
     valid_intervals = ['1min', '5min', '15min', '30min',
                        '60min', 'daily', 'weekly', 'monthly']
@@ -143,6 +190,15 @@ def is_valid_interval(time_step):
 
 
 def is_valid_format(format):
+    """
+    Validates the file format input by the user.
+
+    Parameters:
+    - format (str): The format for output file (e.g., 'xlsx', 'csv', 'json').
+
+    Returns:
+    - bool: True if the file format is valid, False otherwise.
+    """
 
     if format in ['xlsx', 'csv', 'json']:
         return True
