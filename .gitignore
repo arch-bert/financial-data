@@ -15,4 +15,3 @@ venv/
 *.xlsx
 *.csv
 *.json
-/output
