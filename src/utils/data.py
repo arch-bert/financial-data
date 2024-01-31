@@ -16,9 +16,7 @@ def write_to_file(data_frame, file_name, format):
 
     # Make sure the output directory exists and is empty
     output_path = Path('output')
-    if output_path.exists():
-        clear_directory(output_path)
-    else:
+    if not output_path.exists():
         output_path.mkdir(parents=True)
 
     # Construct the file path
