@@ -94,7 +94,7 @@ def clean_data_frame(df):
 
     # Remove 'Stock Split' Column
     if 'Stock Split' in df.columns:
-        df.drop(columns='Stock Split', inplace=True)
+        df.drop(columns='Stock Splits', inplace=True)
 
 
 def print_dates_msg(df, start_date=None, end_date=None):
