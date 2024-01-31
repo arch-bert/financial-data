@@ -78,9 +78,11 @@ def clean_data_frame(df):
     None: The function modifies the DataFrame in place.
     """
 
+    # Rename the index
+    df.index.name = 'Date'
+
     # Change 'date' column to 'Date'
-    if 'date' in df.columns:
-        df.rename(columns={'date': 'Date'}, inplace=True)
+    # df.rename(columns={'date': 'Date'}, inplace=True)
 
     # Remove 'Adj Close' Column
     if 'Adj Close' in df.columns:
