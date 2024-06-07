@@ -1,3 +1,4 @@
+import sys
 from utils import data
 from datetime import datetime
 from stocks import stock_prices
@@ -9,7 +10,7 @@ from utils.suppress_print import SuppressPrint
 ###################### MAIN LOOP ######################
 def main():
     """
-    The main loop for the financial data extraction script. This function prompts the user for input
+    The main function for the financial data extraction script. This function prompts the user for input
     on the type of financial data needed (stocks, crypto, forex), the symbol for the data,
     the start and end dates for the data range, the interval of the data, and the desired output format.
     It then fetches the data and saves it to a file.
@@ -22,6 +23,52 @@ def main():
     end_date = None
     interval = None
     format = None
+
+###################### COMMAND-LINE ARGUMENTS ######################
+    if len(sys.argv) > 1:
+
+        if len(sys.argv) != 7:
+            print("Invalid number of arguments")
+            sys.exit(1)
+
+        else:
+            data_type = sys.argv[1]
+            symbol = sys.argv[2]
+            start_date = sys.argv[3]
+            end_date = sys.argv[4]
+            interval = sys.argv[5]
+            format = sys.argv[6]
+
+            if data_type == 'stocks':
+                df = stock_prices.get_time_series(symbol, start_date,
+                                                  end_date, interval)
+            elif data_type == 'crypto':
+                df = crypto_prices.get_time_series(symbol, start_date,
+                                                   end_date, interval)
+            else:
+                df = forex_rates.get_time_series(symbol, start_date,
+                                                 end_date, interval)
+
+            # Clean currency symbol for filename
+            symbol = symbol.replace('/', '_')
+
+            # Get actual time-series dates
+            actual_start_date = df.index[0]
+            actual_end_date = df.index[-1]
+            # Remove time from the DateTime object
+            actual_start_date = actual_start_date.strftime('%Y-%m-%d', )
+            actual_end_date = actual_end_date.strftime('%Y-%m-%d')
+
+            # Create filename string
+            file_name = f'{symbol}_{actual_start_date}_{actual_end_date}_{interval}'
+
+            # Clean DataFrame and write to file
+            data.clean_data_frame(df)
+            data.write_to_file(df, file_name, format)
+            # Exit the program
+            sys.exit(0)
+
+###################### UI ARGUMENTS ######################
 
     # Data type input loop
     valid = False
