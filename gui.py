@@ -1,17 +1,26 @@
-import tkinter as tk
+import customtkinter as ctk
 
-# Create & configure loading window
-window = tk.Tk()
-window.configure(bg="#222222", height=400, width=600)
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
 
-# Create dropdown menu
-options = ["Crypto", "Stocks", "Forex"]
-selected_option = tk.StringVar(window)
-selected_option.set(options[1])  # Default: Stocks
+        self.title("Financial Data Extractor")
+        self.geometry("400x200")
 
-dropdown = tk.OptionMenu(window, selected_option, *options)
-dropdown.configure(bg="#2b2b2b")  # Change dropdown background color
-dropdown.pack()
+        self.label = ctk.CTkLabel(self, text="Select Data Type")
+        self.label.pack(pady=(20, 10))
+
+        self.dropdown = ctk.CTkComboBox(self, values=["Crypto", "Stocks", "Forex"])
+        self.dropdown.set("Stocks")
+        self.dropdown.pack(pady=(0, 20))
+
+        self.button = ctk.CTkButton(self, text="Confirm", command=self.on_confirm)
+        self.button.pack()
+
+    def on_confirm(self):
+        selected = self.dropdown.get()
+        print(f"Selected: {selected}")
 
 if __name__ == "__main__":
-    window.mainloop()
+    app = App()
+    app.mainloop()
