@@ -11,6 +11,26 @@ This Python script allows users to extract financial data for stocks, cryptocurr
 - **Command-Line Interface**: Use command-line arguments for quick data extraction.
 - **Interactive Mode**: Guided input prompts for parameter selection.
 
+## Project Structure
+```
+financial-data-extractor/
+├── src/
+│   ├── crypto/
+│   │   └── crypto_prices.py
+│   ├── currency/
+│   │   └── forex_rates.py
+│   ├── stocks/
+│   │   └── stock_prices.py
+│   ├── utils/
+│   │   ├── data.py
+│   │   └── suppress_print.py
+│   └── main.py
+├── output/  # Generated output files will be stored here
+├── README.md
+├── requirements.txt
+└── LICENSE
+```
+
 ## Installation and Setup
 
 ### 1. Install OpenBB Terminal
@@ -89,23 +109,3 @@ If no command-line arguments are provided, the script will prompt you for input:
 4. **Enter End Date:** In YYYY-MM-DD format.
 5. **Select Interval:** Choose from 1min, 5min, 15min, 30min, 60min, daily, weekly, or monthly.
 6. **Select Output Format:** Choose from csv, xlsx, or json.
-
-## Project Structure
-```
-financial-data-extractor/
-├── src/
-│   ├── crypto/
-│   │   └── crypto_prices.py
-│   ├── currency/
-│   │   └── forex_rates.py
-│   ├── stocks/
-│   │   └── stock_prices.py
-│   ├── utils/
-│   │   ├── data.py
-│   │   └── suppress_print.py
-│   └── main.py
-├── output/  # Generated output files will be stored here
-├── README.md
-├── requirements.txt
-└── LICENSE
-```
